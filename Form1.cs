@@ -19,43 +19,29 @@ namespace Explorador_Web
 
         private void NavegarAUrl(string url)
         {
-            if (url.StartsWith("https://") || url.StartsWith("http://"))
+            if (!(url.StartsWith("https://") || url.StartsWith("http://")))
             {
-                try
-                {
-                    webBrowser1.Navigate(new Uri(url));
-                    AgregarUrlAlComboBox(url);
-                }
-                catch (UriFormatException)
-                {
-                    MessageBox.Show("La dirección no es válida.");
-                }
+                url = "https://" + url;
             }
-            else
+
+            try
             {
-                MessageBox.Show("La dirección debe empezar con 'https://' o 'http://'.");
+                webBrowser1.Navigate(new Uri(url));
+                AgregarUrlAlComboBox(url);
+            }
+            catch (UriFormatException)
+            {
+                MessageBox.Show("La dirección no es válida.");
             }
         }
 
         private void AgregarUrlAlComboBox(string url)
         {
-            // Agregar la URL al ComboBox si no existe ya
+            
             if (!comboBox1.Items.Contains(url))
             {
                 comboBox1.Items.Add(url);
             }
-        }
-
-       
-
-        private void HaciaAtrasToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void HaciaAdelanteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
         }
 
         private void navegarToolStripMenuItem_Click(object sender, EventArgs e)
