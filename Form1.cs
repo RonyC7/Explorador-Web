@@ -23,7 +23,17 @@ namespace Explorador_Web
             {
                 if (!url.StartsWith("http://") && !url.StartsWith("https://"))
                 {
-                    url = "https://" + url;
+                    if (EsBusqueda(url))
+                    {
+                        string busqueda = $"https://www.google.com/search?q={Uri.EscapeDataString(url)}";
+                        webBrowser1.Navigate(new Uri(busqueda));
+                        AgregarUrlAlComboBox(busqueda);
+                        return; 
+                    }
+                    else
+                    {
+                        url = "https://" + url;
+                    }
                 }
 
                 webBrowser1.Navigate(new Uri(url));
@@ -34,6 +44,12 @@ namespace Explorador_Web
                 MessageBox.Show("La dirección no es válida.");
             }
         }
+
+        private bool EsBusqueda(string url)
+        {
+            return !url.Contains(".") && !url.StartsWith("http://") && !url.StartsWith("https://");
+        }
+
 
         private void AgregarUrlAlComboBox(string url)
         {
