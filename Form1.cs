@@ -19,13 +19,13 @@ namespace Explorador_Web
 
         private void NavegarAUrl(string url)
         {
-            if (!(url.StartsWith("https://") || url.StartsWith("http://")))
-            {
-                url = "https://" + url;
-            }
-
             try
             {
+                if (!url.StartsWith("http://") && !url.StartsWith("https://"))
+                {
+                    url = "https://" + url;
+                }
+
                 webBrowser1.Navigate(new Uri(url));
                 AgregarUrlAlComboBox(url);
             }
