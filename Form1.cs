@@ -23,18 +23,24 @@ namespace Explorador_Web
         {
             string input = comboBox1.Text;
 
-            // Verifica si la entrada es una URL válida
             if (Uri.IsWellFormedUriString(input, UriKind.Absolute))
             {
-                // Navega a la URL directamente
                 NavegarAUrl(input);
             }
             else
             {
-                // Es una búsqueda, navega al buscador de Google
-                string busqueda = $"https://www.google.com/search?q={Uri.EscapeDataString(input)}";
-                webView2.CoreWebView2.Navigate(busqueda);
-                AgregarUrlAlComboBox(busqueda);
+                if (EsBusqueda(input))
+                {
+                    string busqueda = $"https://www.google.com/search?q={Uri.EscapeDataString(input)}";
+                    webView2.CoreWebView2.Navigate(busqueda);
+                    AgregarUrlAlComboBox(busqueda);
+                }
+                else
+                {
+                    string urlCompleta = "https://" + input;
+                    webView2.CoreWebView2.Navigate(urlCompleta);
+                    AgregarUrlAlComboBox(urlCompleta);
+                }
             }
         }
 
@@ -42,7 +48,7 @@ namespace Explorador_Web
         {
              if (webView2 != null && webView2.CoreWebView2 != null)
     {
-        webView2.CoreWebView2.Navigate(url); // Navegar a la URL especificada
+        webView2.CoreWebView2.Navigate(url); 
     }
             try
             {
@@ -92,9 +98,11 @@ namespace Explorador_Web
 
         private void inicioToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            NavegarAUrl("https://www.mesoamericana.edu.gt/");
-            comboBox1.Text = "https://www.mesoamericana.edu.gt/"; // También actualiza el cuadro de texto con la URL navegada
+            string urlInicio = "https://www.mesoamericana.edu.gt/";
+
+            webView2.CoreWebView2.Navigate(urlInicio);
         }
+
 
         private void haciaAtrasToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
