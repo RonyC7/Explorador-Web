@@ -178,15 +178,15 @@ namespace Explorador_Web
 
 
         private void GuardarHistorial()
+{
+    using (StreamWriter writer = new StreamWriter("Historial.txt"))
+    {
+        foreach (var url in historial)
         {
-            using (StreamWriter writer = new StreamWriter("Historial.txt"))
-            {
-                foreach (var url in historial)
-                {
-                    writer.WriteLine($"{url}|{ultimaVisita[url]}");
-                }
-            }
+            writer.WriteLine($"{url}|{ultimaVisita[url]}");
         }
+    }
+}
 
 
         private void CargarHistorial()

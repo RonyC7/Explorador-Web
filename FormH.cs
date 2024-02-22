@@ -65,6 +65,8 @@ namespace Explorador_Web
 
         }
 
+
+
         private void buttonEliminar_Click(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem != null)
