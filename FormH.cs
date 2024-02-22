@@ -42,12 +42,11 @@ namespace Explorador_Web
             form1.Show();
         }
 
-        private void MostrarHistorial()
+        public void MostrarHistorial(Dictionary<string, DateTime> historial)
         {
-            listBox1.Items.Clear();
-            foreach (var kvp in HistorialManager.UltimaVisita)
+            foreach (var kvp in historial)
             {
-                listBox1.Items.Add($"{kvp.Key} - Última visita: {kvp.Value}");
+                listBox1.Items.Add($"{kvp.Key}   {kvp.Value.ToShortDateString()}");
             }
         }
 
@@ -65,5 +64,26 @@ namespace Explorador_Web
         {
 
         }
+
+        private void buttonEliminar_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem != null)
+            {
+                string itemSeleccionado = listBox1.SelectedItem.ToString();
+
+                DialogResult resultado = MessageBox.Show($"¿Seguro que desea eliminar '{itemSeleccionado}'?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (resultado == DialogResult.Yes)
+                {
+                    listBox1.Items.Remove(itemSeleccionado);
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione un elemento para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
     }
 }

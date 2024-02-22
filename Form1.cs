@@ -15,6 +15,7 @@ namespace Explorador_Web
         private readonly Dictionary<string, DateTime> ultimaVisita = new Dictionary<string, DateTime>();
         public event EventHandler HistorialActualizado;
 
+
         public static class HistorialManager
         {
             public static List<string> Historial { get; } = new List<string>();
@@ -46,6 +47,7 @@ namespace Explorador_Web
 
         private void buttonNavegar_Click(object sender, EventArgs e)
         {
+
             string input = comboBox1.Text;
 
             if (Uri.IsWellFormedUriString(input, UriKind.Absolute))
@@ -77,10 +79,8 @@ namespace Explorador_Web
             GuardarH("Historial.txt", selectedUrl);
 
             OrdenarHistorial();
+
         }
-
-
-
 
         private void NavegarAUrl(string url)
         {
