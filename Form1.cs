@@ -29,6 +29,16 @@ namespace Explorador_Web
             CargarHistorial();
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            GuardarHistorial();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            CargarHistorial();
+        }
+
         private void GuardarH(string fileName, string texto)
         {
             if (!File.ReadAllLines(fileName).Contains(texto))
@@ -178,35 +188,39 @@ namespace Explorador_Web
 
 
         private void GuardarHistorial()
-{
-    using (StreamWriter writer = new StreamWriter("Historial.txt"))
-    {
-        foreach (var url in historial)
         {
-            writer.WriteLine($"{url}|{ultimaVisita[url]}");
+            using (StreamWriter writer = new StreamWriter("Historial.txt"))
+            {
+                foreach (var kvp in HistorialManager.UltimaVisita)
+                {
+                    writer.WriteLine($"{kvp.Key},{kvp.Value}");
+                }
+            }
         }
-    }
-}
-
 
         private void CargarHistorial()
         {
             if (File.Exists("Historial.txt"))
             {
-                var lines = File.ReadAllLines("Historial.txt");
-                foreach (string line in lines)
+                using (StreamReader reader = new StreamReader("Historial.txt"))
                 {
-                    var parts = line.Split('|');
-                    if (parts.Length == 2)
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
                     {
-                        historial.Add(parts[0]);
-                        ultimaVisita[parts[0]] = DateTime.Parse(parts[1]);
-                        comboBox1.Items.Add(parts[0]);
+                        string[] parts = line.Split(',');
+                        if (parts.Length == 2)
+                        {
+                            string url = parts[0];
+                            DateTime fechaVisita;
+                            if (DateTime.TryParse(parts[1], out fechaVisita))
+                            {
+                                HistorialManager.UltimaVisita[url] = fechaVisita;
+                            }
+                        }
                     }
                 }
             }
         }
-
 
         private void OrdenarHistorial()
         {
@@ -241,7 +255,13 @@ namespace Explorador_Web
             //este se genero automaticamente y no lo puedo eliminar ya que si lo hago genera errores en form1
         }
 
-        
+        public static void EliminarUrlDelHistorial(string url)
+        {
+            if (HistorialManager.Historial.Contains(url))
+            {
+                HistorialManager.Historial.Remove(url);
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {

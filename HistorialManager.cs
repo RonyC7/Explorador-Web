@@ -11,6 +11,8 @@ namespace Explorador_Web
         public static List<string> Historial { get; } = new List<string>();
         public static Dictionary<string, DateTime> UltimaVisita { get; } = new Dictionary<string, DateTime>();
 
+
+
         public static void AgregarUrl(string url)
         {
             if (!Historial.Contains(url))
